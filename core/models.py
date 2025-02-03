@@ -119,16 +119,16 @@ class Profile(models.Model):
 
 
 class Address(models.Model):
-    region = models.CharField(max_length=80, verbose_name="Регион", choices=REGION)
-    city = models.CharField(max_length=80, verbose_name="Город")
-    area = models.CharField(max_length=80, verbose_name="Район")
-    street = models.CharField(max_length=80, verbose_name="Улица")
-    house_number = models.PositiveSmallIntegerField(verbose_name="Номер дома", validators=[MinValueValidator(1)])
-    entrance = models.PositiveSmallIntegerField(verbose_name="Подьезд", validators=[MinValueValidator(1), MaxValueValidator(100)])
-    floor = models.PositiveSmallIntegerField(verbose_name="Этаж", validators=[MinValueValidator(1), MaxValueValidator(1000)])
-    apartment_number = models.PositiveSmallIntegerField(verbose_name="Номер квартиры", validators=[MinValueValidator(1), MaxValueValidator(10000)])
-    coordinates_x = models.DecimalField(max_digits=5, decimal_places=2, validators=[MinValueValidator(-180.00), MaxValueValidator(180.00)], verbose_name="Долгота")
-    coordinates_y = models.DecimalField(max_digits=4, decimal_places=2, validators=[MinValueValidator(-90.00), MaxValueValidator(90.00)], verbose_name="Широта")
+    region = models.CharField("Регион", max_length=80, choices=REGION)
+    city = models.CharField("Город", max_length=80)
+    area = models.CharField("Район", max_length=80)
+    street = models.CharField("Улица", max_length=80)
+    house_number = models.PositiveSmallIntegerField("Номер дома", validators=[MinValueValidator(1)])
+    entrance = models.PositiveSmallIntegerField("Подьезд", validators=[MinValueValidator(1), MaxValueValidator(100)])
+    floor = models.PositiveSmallIntegerField("Этаж", validators=[MinValueValidator(1), MaxValueValidator(1000)])
+    apartment_number = models.PositiveSmallIntegerField("Номер квартиры", validators=[MinValueValidator(1), MaxValueValidator(10000)])
+    coordinates_x = models.DecimalField("Долгота", max_digits=5, decimal_places=2, validators=[MinValueValidator(-180.00), MaxValueValidator(180.00)] )
+    coordinates_y = models.DecimalField("Широта",max_digits=4, decimal_places=2, validators=[MinValueValidator(-90.00), MaxValueValidator(90.00)])
 
     class Meta:
         verbose_name = "Адрес"
@@ -138,7 +138,7 @@ class Address(models.Model):
         return f"{self.street} {self.house_number} {self.city}"
 
 class EmergencyContact(models.Model):
-    user = models.OneToOneField("User", on_delete=models.CASCADE, related_name="emergency_user_contact")
+    user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="emergency_user_contact")
     name = models.CharField(max_length=80, verbose_name="Имя")
     relation = models.CharField(max_length=100, verbose_name="Отношение", choices=TYPE_RELATION)
     phone = models.CharField(max_length=100, verbose_name=" Номер телефона", validators=[RegexValidator(
