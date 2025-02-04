@@ -21,7 +21,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ["id", "username", "first_name", "last_name", "email", "profile"]
+        fields = ["id", "first_name", "last_name", "patronymic", "email", "is_test", "profile"]
 
 
 class EmergencySerializer(serializers.ModelSerializer):
