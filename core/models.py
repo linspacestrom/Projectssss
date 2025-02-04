@@ -1,11 +1,8 @@
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.core.exceptions import ValidationError
-from django.core.validators import MinValueValidator, MaxLengthValidator, MaxValueValidator, RegexValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.db import models
-from django.contrib.gis.db import models as geomodels
 import re
-
-# Create your models here.
 
 TYPE_BLOOD = [
     ("1 отрицательная группа крови ", "O-"),
@@ -56,7 +53,7 @@ def validate_snils(snils):
 
 
 def validate_number_phone_one(phone):
-    if re.search(r"^\+{0,1}[78]\(9\d{2}\)\d{7}$", phone) is None:
+    if re.search(r"^\+?[78]\(9\d{2}\)\d{7}$", phone) is None:
         raise ValidationError("Неверно введен номер телефона")
 
 def validate_number_phone_two(phone):
@@ -116,7 +113,6 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.passport} {self.snils}"
-
 
 class Address(models.Model):
     region = models.CharField("Регион", max_length=80, choices=REGION)
