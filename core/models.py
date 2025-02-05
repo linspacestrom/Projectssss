@@ -1,37 +1,15 @@
 from django.contrib.auth.models import AbstractUser, Group, Permission
-from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.db import models
 from core.consts import TYPE_BLOOD, REGION, TYPE_RELATION
-import re
-
-def validate_passport(passport):
-    if re.search(r"^[0-9]{10}$", passport) is None:
-        raise ValidationError("Паспорт должен содержать 10 цифр")
-
-def validate_snils(snils):
-    if re.search(r"^[0-9]{11}$", snils) is None:
-        raise ValidationError("Снилс должен содержать 11 цифр")
-
-def validate_number_phone_one(phone):
-    if re.search(r"^\+?[78]\(9\d{2}\)\d{7}$", phone) is None:
-        raise ValidationError("Неверно введен номер телефона")
-
-def validate_number_phone_two(phone):
-    if re.search(r"^\+?[78]9\d{9}$", phone) is None:
-        raise ValidationError("Неверно введен номер телефона")
-
-def validate_insurance(insurance):
-    if re.search(r"^[0-9]{16}$", insurance) is None:
-        raise ValidationError("Неверно введен страховой полис")
-
+from core.validators import validate_snils, validate_passport, validate_insurance
 class User(AbstractUser):
-        patronymic = models.CharField(max_length=120, verbose_name="отчество", default="Отсутствует")
+        patronymic = models.CharField("отчество", max_length=120, default="Отсутствует")
         profile = models.OneToOneField("Profile",
                                        on_delete=models.CASCADE,
                                        related_name="user_abstract_profile",
                                        verbose_name="профиль")
-        is_test = models.BooleanField(default=False, verbose_name="тестировщик")
+        is_test = models.BooleanField("тестировщик", default=False,)
         groups = models.ManyToManyField(
             Group,
             related_name='custom_user_set',
@@ -57,12 +35,12 @@ class User(AbstractUser):
             return f"{self.first_name} {self.last_name}"
 
 class Profile(models.Model):
-    passport = models.CharField(max_length=10, verbose_name="паспорт", unique=True,
+    passport = models.CharField("паспорт", max_length=10, unique=True,
                                 validators=[validate_passport])
-    snils = models.CharField(max_length=11, verbose_name="cнилс", unique=True,
+    snils = models.CharField("cнилс", max_length=11, unique=True,
                              validators=[validate_snils])
-    blood_type = models.CharField(max_length=30, verbose_name="группа крови", choices=TYPE_BLOOD)
-    insurance = models.CharField(max_length=16, verbose_name="номер страхового полиса", validators=[validate_insurance])
+    blood_type = models.CharField("группа крови", max_length=30, choices=TYPE_BLOOD)
+    insurance = models.CharField("номер страхового полиса", max_length=16, validators=[validate_insurance])
     address = models.OneToOneField("Address",
                                    on_delete=models.CASCADE,
                                    related_name="profile_address",
@@ -96,9 +74,9 @@ class Address(models.Model):
 
 class EmergencyContact(models.Model):
     user = models.ForeignKey("User", on_delete=models.CASCADE, related_name="emergency_user_contact")
-    name = models.CharField(max_length=80, verbose_name="имя")
-    relation = models.CharField(max_length=100, verbose_name="отношение", choices=TYPE_RELATION)
-    phone = models.CharField(max_length=100, verbose_name=" номер телефона", validators=[RegexValidator(
+    name = models.CharField("имя", max_length=80)
+    relation = models.CharField("отношение", max_length=100, choices=TYPE_RELATION)
+    phone = models.CharField("номер телефона", max_length=100, validators=[RegexValidator(
         regex=r"^\+?[78]{1}9\d{9}$",
         message="Неверно введен номер телефона"
     )])
