@@ -8,7 +8,6 @@ class AddressSerializer(serializers.ModelSerializer):
         model = Address
         fields = "__all__"
 
-
 class ProfileSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
     passport = serializers.CharField(required=False, validators=[validate_passport])

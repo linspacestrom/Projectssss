@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.contrib.auth import get_user_model
 from core import models
 
 @admin.register(models.User)
