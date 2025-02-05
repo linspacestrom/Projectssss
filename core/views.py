@@ -1,7 +1,6 @@
-from django.shortcuts import render
-from rest_framework import viewsets, generics
+from rest_framework import viewsets
 from rest_framework.filters import SearchFilter
-
+from core.permissions import IsOwnerOrReadOnly, IsAdminOrReadOnly
 from core.filters import UserFilter, ProfileFilter, AddressFilter, EmergencyContactFilter
 from core.models import Address, User, Profile, EmergencyContact
 from core.pagination import UserPageNumberPagination, ProfilePageNumberPagination, AddressPageNumberPagination, \
@@ -18,6 +17,7 @@ class AddressViewSet(viewsets.ModelViewSet):
     filterset_class = AddressFilter
     search_fields = ("passport", "snils", "insurance")
     pagination_class = AddressPageNumberPagination
+    permission_classes = (IsOwnerOrReadOnly, IsAdminOrReadOnly)
 
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
@@ -26,6 +26,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
     filterset_class = ProfileFilter
     search_fields = ("passport", "snils", "insurance")
     pagination_class = ProfilePageNumberPagination
+    permission_classes = (IsOwnerOrReadOnly, IsAdminOrReadOnly)
 
 class EmergencyContactViewSet(viewsets.ModelViewSet):
     queryset = EmergencyContact.objects.all()
@@ -34,6 +35,7 @@ class EmergencyContactViewSet(viewsets.ModelViewSet):
     filterset_class = EmergencyContactFilter
     search_fields = ("name", "relation", "phone")
     pagination_class = EmergencyPageNumberPagination
+    permission_classes = (IsOwnerOrReadOnly, IsAdminOrReadOnly)
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -42,6 +44,7 @@ class UserViewSet(viewsets.ModelViewSet):
     filterset_class = UserFilter
     search_fields = ("first_name", "last_name", "patronymic", "email")
     pagination_class = UserPageNumberPagination
+    permission_classes = (IsOwnerOrReadOnly, IsAdminOrReadOnly)
 
 # class AddressRetrieveUpdateViewSet(generics.RetrieveUpdateAPIView):
 #     queryset = Address.objects.all()
