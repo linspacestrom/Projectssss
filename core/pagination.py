@@ -2,6 +2,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 class UserPageNumberPagination(PageNumberPagination):
+
     page_size = 10
     page_size_query_param = "page_size"
     max_page_size = 100
@@ -15,6 +16,7 @@ class UserPageNumberPagination(PageNumberPagination):
         })
 
 class ProfilePageNumberPagination(PageNumberPagination):
+
     page_size = 10
     page_size_query_param = "page_size"
     max_page_size = 100
@@ -28,6 +30,7 @@ class ProfilePageNumberPagination(PageNumberPagination):
         })
 
 class AddressPageNumberPagination(PageNumberPagination):
+
     page_size = 10
     page_size_query_param = "page_size"
     max_page_size = 100
@@ -41,6 +44,7 @@ class AddressPageNumberPagination(PageNumberPagination):
         })
 
 class EmergencyPageNumberPagination(PageNumberPagination):
+
     page_size = 10
     page_size_query_param = "page_size"
     max_page_size = 100

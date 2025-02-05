@@ -7,6 +7,7 @@ routers.register('users', UserViewSet)
 routers.register("profiles", ProfileViewSet)
 routers.register('addresses', AddressViewSet)
 routers.register('emergencies', EmergencyContactViewSet)
+print(routers.urls)
 urlpatterns = []
 
 urlpatterns += routers.urls
