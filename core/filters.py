@@ -21,7 +21,7 @@ class ProfileFilter(FilterSet):
     passport = filters.CharFilter("passport", lookup_expr='iexact', label="Паспорт")
     snils = filters.CharFilter("snils", lookup_expr='iexact', label="Снилс")
     insurance = filters.CharFilter("insurance", "iexact", label="Номер страхового полиса")
-    blood_type = filters.ChoiceFilter(field_name="blood_type", choices=TYPE_BLOOD, label="Группа крови")
+    blood_type = filters.ChoiceFilter("blood_type", choices=TYPE_BLOOD, label="Группа крови")
     user_name = filters.CharFilter('user_abstract_profile__first_name', lookup_expr='iexact', label="Имя")
     user_surname = filters.CharFilter('user_abstract_profile__last_name', lookup_expr='exact', label="Фамилия")
     user_patronymic = filters.CharFilter('user_abstract_profile__patronymic', lookup_expr='exact', label="Отчество")
